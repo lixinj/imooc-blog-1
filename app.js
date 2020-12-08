@@ -1,16 +1,31 @@
+const handleBlogRouter = require('./src/router/blog')
+const handleUserRouter = require('./src/router/user')
+
 const serverHandle = (req,res) => {
     //设置返回格式
     res.setHeader('Content-type', 'application/json')
 
-    const resData = {
-        name: '双越1',
-        site: 'imooc',
-        env: process.env.NODE_ENV
+    const blogData = handleBlogRouter(req,res)
+    if(blogData){
+        res.end(
+            JSON.stringify(blogData)
+        )
+        return
     }
 
-    res.end(
-        JSON.stringify(resData)
-    )
+    const userData = handleUserRouter(req,res)
+    if(userData){
+        res.end(
+            JSON.stringify(userData)
+        )
+        return
+    }
+
+    res.writeHead(404, {"Content-type": "text/plain"})
+    res.write("404 NOT FOUND\n")
+    res.end()
 }
 
 module.exports = serverHandle
+
+// process.env.NODE_ENV
