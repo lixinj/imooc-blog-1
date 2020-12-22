@@ -36,7 +36,6 @@ const serverHandle = (req,res) => {
     // 获取 path
     const url = req.url
     req.path = url.split('?')[0]
-
     // 解析 query
     req.query = querystring.parse(url.split('?')[1])
 
@@ -53,7 +52,6 @@ const serverHandle = (req,res) => {
         //     )
         //     return
         // }
-
         const blogResult = handleBlogRouter(req,res)
         if(blogResult){
             blogResult.then(blogData => {
@@ -63,7 +61,6 @@ const serverHandle = (req,res) => {
             })
             return
         }
-
         const userData = handleUserRouter(req,res)
         if(userData){
             res.end(
