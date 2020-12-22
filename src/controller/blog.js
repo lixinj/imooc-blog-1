@@ -38,20 +38,38 @@ const newBlog = (blogData = {}) => {
             id:insertData.insertId
         }
         
-    }
-
-    )
+    })
 }
 
 const updateBlog = (id, blogData) => {
-        //blogData 是一个博客对象，包含 title content 属性
-        console.log('id newBlogData', id, blogData)
-        return true
+    const title = blogData.title
+    const content = blogData.content
+    const createtime = Date.now()
+
+    const sql = `
+    update blogs set title ='${title}', content ='${content}', createtime ='${createtime}' where id =${id} ;
+    `
+    return exec(sql).then(updateData => {
+        console.log('updateData is ', updateData)
+        if(updateData.affectedRows > 0 ){
+            return true
+        }
+        return false
+        
+    })
 }
 
-const delBlog = (id) => {
-    return true
+const delBlog = (id, author) => {
+
+    const sql = `delete from blogs where id = ${id} and author ='${author}'`
+    return exec(sql).then(delData => {
+        if(delData.affectedRows > 0 ){
+            return true
+        }
+        return false        
+    })
 }
+
 module.exports = {
     getList,
     getDetail,
